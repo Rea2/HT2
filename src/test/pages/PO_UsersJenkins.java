@@ -1,23 +1,18 @@
-package manage;
+package pages;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by Raik Yauheni on 06.12.2018.
  */
-public class PO_UsersJenkins {
-    private WebDriverWait wait;
-    private final WebDriver driver;
+public class PO_UsersJenkins extends PO {
 
-    @FindBy(partialLinkText = "Create User")
+    @FindBy(xpath = "//a[text() = 'Create User']")
     private WebElement href_CreateUser;
 
-//@FindBy (xpath = "//tbody/tr[last()]/td[last()]/a[@href = 'user/someuser/delete']")
-//@FindBy (xpath = "//tbody/tr[last()]/td/*[text() = 'someuser']")
     @FindBy (xpath = "//tbody/tr[last()]/td[*/text() = 'someuser']")
     private WebElement deleteUserText;
 
@@ -27,10 +22,11 @@ public class PO_UsersJenkins {
     @FindBy (xpath = "//a[@href = 'user/admin/delete']")
     private WebElement deleteAdmin;
 
+    @FindBy (xpath = "//tbody/tr/td[*/text() = 'someuser']")
+    private WebElement createdUser;
 
     public PO_UsersJenkins(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(this.driver, 30);
+        super(driver);
 
         // Провекрка того факта, что мы на верной странице.
         if ((!driver.getTitle().equals("Users [Jenkins]")) ) {
@@ -38,18 +34,17 @@ public class PO_UsersJenkins {
         }
     }
 
-
-    public  WebElement getHref_CreateUser() {
-        return  href_CreateUser;
+    public  boolean  isHref_CreateUserExist() {
+        return  isWebElementExist(href_CreateUser);
     }
 
-    public PO_UsersJenkins clickHrefCreateUser() {
+    public PO_UsersJenkins clickHref_CreateUser() {
         href_CreateUser.click();
         return this;
     }
 
-    public String getHrefCreateUserDescription(){
-        return href_CreateUser.getText();
+    public  boolean  isСreatedUserExist() {
+        return  isWebElementExist(createdUser);
     }
 
     // Удаление пользователя 'someuser'
@@ -58,35 +53,21 @@ public class PO_UsersJenkins {
         return this;
     }
 
+
     // Проверяем, существует ли WebElement deleteUser2
     public boolean isDeletedUserHrefExist() {
-        try {
-            deleteUserLink.getText();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+       return isWebElementExist(deleteUserLink);
     }
 
     public boolean isDeletedUserTextExist(){
-        try {
-            deleteUserText.getText();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+       return isWebElementExist(deleteUserText);
     }
 
     public boolean isAdminHrefExist(){
-        try {
-            deleteAdmin.getText();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return isWebElementExist(deleteAdmin);
     }
 
-
-
-
+    public WebElement getHref_CreateUser() {
+        return href_CreateUser;
+    }
 }

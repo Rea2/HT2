@@ -1,11 +1,10 @@
-package manage;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,9 +12,7 @@ import java.util.Iterator;
 /**
  * Created by Raik Yauheni on 08.12.2018.
  */
-public class PO_CreateUserJenkins {
-    private WebDriverWait wait;
-    private final WebDriver driver;
+public class PO_CreateUserJenkins extends PO {
 
     @FindBy(xpath = "//body")
     private WebElement body;
@@ -41,13 +38,8 @@ public class PO_CreateUserJenkins {
     @FindBy (id = "yui-gen1")
     private WebElement submitNewUser;
 
-    @FindBy (xpath = "//table[@id = 'people']/tbody/tr[last()]/td[2]/a")
-    private WebElement createdUser;
-
-
     public PO_CreateUserJenkins(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(this.driver, 30);
+        super(driver);
 
         // Провекрка того факта, что мы на верной странице.
         if ((!driver.getTitle().equals("Create User [Jenkins]")) ) {
@@ -97,11 +89,7 @@ public class PO_CreateUserJenkins {
             return "";
         }
     }
-
-    public WebElement getForm() {
-        return form;
-    }
-
+    // Проверка что поле для ввода текста не заполнено
     public String getErrorOnInputTextNotEmpty(WebElement webElement) {
         if (webElement.getAttribute("value").isEmpty())  {
             return "";
@@ -153,9 +141,10 @@ public class PO_CreateUserJenkins {
         return email;
     }
 
-    public WebElement getCreatedUser() {
-        return createdUser;
+    public WebElement getForm() {
+        return form;
     }
+
 
     // Setters
     public PO_CreateUserJenkins setUsername(String value) {
